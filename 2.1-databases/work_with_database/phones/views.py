@@ -6,9 +6,15 @@ def index(request):
 
 
 def show_catalog(request):
+    name_filter = request.GET.get('sort')
+    if name_filter == 'name':
+        tel = Phone.objects.order_by('name')
+    if name_filter == 'min_price':
+        tel = Phone.objects.order_by('price')
+    if name_filter == 'max_price':
+        tel = Phone.objects.order_by('-price')
     template = 'catalog.html'
-    phone_all = Phone.objects.all()
-    context = {'phones': phone_all}
+    context = {'phones': tel}
     return render(request, template, context)
 
 
